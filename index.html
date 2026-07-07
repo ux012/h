@@ -19,6 +19,7 @@
     --border-color: #E2E8F0;
     --eta-red: #E74C3C;
     --eta-blue: #3498DB;
+    --sky: #29ABE2;
   }
   
   * { box-sizing: border-box; }
@@ -93,6 +94,20 @@
   /* ===== ABOUT (세계관 & 괴담 + 가로 이미지 슬롯) ===== */
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   @media(max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
+
+  /* ===== NAV 모바일 반응형 ===== */
+  @media(max-width: 640px) {
+    nav { padding: 12px 16px; flex-wrap: nowrap; }
+    .nav-brand { font-size: 15px; gap: 5px; flex-shrink: 0; white-space: nowrap; }
+    .nav-brand span { padding: 3px 7px; font-size: 11px; }
+    .nav-links { gap: 14px; font-size: 12.5px; overflow-x: auto; flex-wrap: nowrap; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none; }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { flex-shrink: 0; }
+    section { padding: 50px 20px; }
+    .section-head h2 { font-size: 24px; }
+    .cast-grid { grid-template-columns: 1fr; }
+    .hero-card h1 br { display: none; }
+  }
   .about-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
   
   /* 가로형 이미지 슬롯 (약 1.46 비율 = 2000/1368) */
@@ -132,12 +147,21 @@
   .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
   .day-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 13px; border-radius: 8px; color: var(--text-main); font-weight: 600; }
   .day-cell.blank { visibility: hidden; }
-  .day-cell.event { background: var(--accent); color: white; }
-  .day-cell.event.long { background: var(--primary); }
+  .day-cell.cat-academic { background: var(--primary); color: white; }
+  .day-cell.cat-event { background: var(--accent); color: white; }
+  .day-cell.cat-activity { background: var(--sky); color: white; }
+  .day-cell.long { box-shadow: inset 0 0 0 2px rgba(0,0,0,0.18); }
   .mon-legend { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border-color); display: flex; flex-direction: column; gap: 8px; }
   .mon-legend div { font-size: 12px; color: var(--text-muted); display: flex; gap: 8px; align-items: center; font-weight: 500; line-height: 1.4; }
-  .mon-legend .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-  .mon-legend .dot.long { background: var(--primary); }
+  .mon-legend .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .mon-legend .dot.cat-academic { background: var(--primary); }
+  .mon-legend .dot.cat-event { background: var(--accent); }
+  .mon-legend .dot.cat-activity { background: var(--sky); }
+
+  /* 캘린더 색상 범례 */
+  .cal-legend { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 30px; font-size: 13px; font-weight: 700; color: var(--text-muted); }
+  .cal-legend span { display: flex; align-items: center; gap: 6px; }
+  .cal-legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
   /* ===== CHARACTERS (가로 이미지 비율 적용) ===== */
   .cast-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
@@ -155,9 +179,9 @@
   .stu-photo .ph-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 800; color: white; }
   
   .stu-body { padding: 20px; }
-  .stu-title { font-size: 13px; color: var(--accent-dark); font-weight: 800; margin-bottom: 4px; }
+  .stu-badge { font-size: 12.5px; color: var(--primary); font-weight: 700; margin-bottom: 6px; }
   .stu-name { font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; }
-  .stu-club { font-size: 13px; color: var(--text-muted); font-weight: 600; background: #F1F5F9; display: inline-block; padding: 4px 12px; border-radius: 12px; }
+  .stu-tag { font-size: 13px; color: var(--text-muted); font-weight: 600; background: #F1F5F9; display: inline-block; padding: 4px 12px; border-radius: 12px; }
 
   /* ===== MODAL (가로 이미지 최적화 레이아웃) ===== */
   .modal-overlay { position: fixed; inset: 0; background: rgba(10, 29, 78, 0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; opacity: 0; transition: opacity 0.3s; }
@@ -278,6 +302,10 @@
             <h4>👨‍🏫 교사 라인업</h4>
             <p>국어 전혜연 / 국사 마필수 / 수학 진도만 / 영어 이민진 / 교감 이태욱 / 체육 박동철(담임)</p>
           </div>
+          <div class="teacher-box">
+            <h4>⏰ 루틴/이벤트</h4>
+            <p>일일: 조회(8:10) / 점심(12:00) / 종례(15:30) / 석식(17:00) / 야자(18:00~22:00)<br>동아리 활동: 수요일 방과후</p>
+          </div>
         </div>
       </div>
       
@@ -315,6 +343,11 @@
       <span class="tag">Academic Calendar</span>
       <h2>2026학년도 학사일정</h2>
       <p>주요 시험과 로맨스 이벤트가 기다리는 1년 스케줄</p>
+    </div>
+    <div class="cal-legend">
+      <span><i style="background:var(--primary)"></i>학사일정 (시험·개학·수능 등)</span>
+      <span><i style="background:var(--accent)"></i>이벤트 (소풍·체육대회·한빛제 등)</span>
+      <span><i style="background:var(--sky)"></i>대회/개인활동 (피아노·농구·수영)</span>
     </div>
     <div class="year-cal" id="yearCal"></div>
   </div>
@@ -375,16 +408,52 @@
 /* ================= YEAR CALENDAR ================= */
 const YEAR = 2026;
 const CAL = [
-  {m:3, events:[{d:[2],label:'새학기 개학'},{d:[14],label:'화이트데이'}]},
-  {m:4, events:[{d:[15,16,17,18],label:'1학기 중간고사'}]},
-  {m:5, events:[{d:[5],label:'봄 소풍'},{d:[20],label:'교내 체육대회 (계주, 농구)'}]},
-  {m:6, events:[{d:[10],label:'전국연합 모의고사'}]},
-  {m:7, events:[{d:[5,6,7,8],label:'1학기 기말고사'},{d:[20],label:'여름 방학식 (수영 시즌)'}]},
-  {m:8, events:[{d:[15],label:'개교기념일 행사'}]},
-  {m:9, events:[{d:[1],label:'2학기 개학'},{d:[15,16,17],label:'가을 수련회 (담력훈련, 진실게임)'}]},
-  {m:10, events:[{d:[10,11,12],label:'2학기 중간고사'},{d:[30],label:'한빛제 축제 (독주회, 유령의집)'}]},
-  {m:11, events:[{d:[11],label:'빼빼로데이'},{d:[20],label:'수능일 (휴일)'}]},
-  {m:12, events:[{d:[15,16,17,18],label:'2학기 기말고사'},{d:[24],label:'크리스마스 이브'},{d:[30],label:'겨울 방학식'}]}
+  {m:3, events:[
+    {d:[2],label:'새학기 개학', cat:'academic'},
+    {d:[14],label:'화이트데이', cat:'event'},
+    {d:[25,26,27],label:'[수영] 국가대표 선발전 (재준)', cat:'activity'}
+  ]},
+  {m:4, events:[
+    {d:[6,7,8],label:'[농구] 춘계 전국 중고 농구대회 (지훈)', cat:'activity'},
+    {d:[15,16,17,18],label:'1학기 중간고사', cat:'academic'}
+  ]},
+  {m:5, events:[
+    {d:[5],label:'봄 소풍', cat:'event'},
+    {d:[20],label:'교내 체육대회 (계주, 농구)', cat:'event'},
+    {d:[28,29],label:'[피아노] 국제콩쿠르 아시아 예선 (은호)', cat:'activity'}
+  ]},
+  {m:6, events:[
+    {d:[10],label:'전국연합 모의고사', cat:'academic'},
+    {d:[20],label:'[농구] 주말리그 라이벌 매치 (지훈)', cat:'activity'}
+  ]},
+  {m:7, events:[
+    {d:[5,6,7,8],label:'1학기 기말고사', cat:'academic'},
+    {d:[20],label:'여름 방학식', cat:'academic'},
+    {d:[25,26,27],label:'[수영] 대통령배 대회 (재준)', cat:'activity'}
+  ]},
+  {m:8, events:[
+    {d:[15],label:'개교기념일 행사', cat:'event'}
+  ]},
+  {m:9, events:[
+    {d:[1],label:'2학기 개학', cat:'academic'},
+    {d:[7],label:'전국연합 모의고사', cat:'academic'},
+    {d:[15,16,17],label:'가을 수련회 (담력훈련, 진실게임)', cat:'event'}
+  ]},
+  {m:10, events:[
+    {d:[10,11,12],label:'2학기 중간고사', cat:'academic'},
+    {d:[16,17,18,19],label:'[수영] 전국체육대회, 재준 4연패 도전', cat:'activity'},
+    {d:[23,24,25],label:'[피아노] 콩쿠르 성인부 본선 (은호)', cat:'activity'},
+    {d:[30],label:'한빛제 축제 (독주회, 유령의집)', cat:'event'}
+  ]},
+  {m:11, events:[
+    {d:[11],label:'빼빼로데이', cat:'event'},
+    {d:[20],label:'수능일 (휴일)', cat:'academic'}
+  ]},
+  {m:12, events:[
+    {d:[15,16,17,18],label:'2학기 기말고사', cat:'academic'},
+    {d:[24],label:'크리스마스 이브', cat:'event'},
+    {d:[30],label:'겨울 방학식', cat:'academic'}
+  ]}
 ];
 const DOW = ['일','월','화','수','목','금','토'];
 const yearCal = document.getElementById('yearCal');
@@ -403,13 +472,13 @@ CAL.forEach(mon => {
   for(let i=0; i<startDow; i++) cells += `<div class="day-cell blank"></div>`;
   for(let d=1; d<=daysInMonth; d++){
     const ev = mon.events.find(e => e.d.includes(d));
-    if(ev) cells += `<div class="day-cell event ${ev._long?'long':''}" title="${ev.label}">${d}</div>`;
+    if(ev) cells += `<div class="day-cell cat-${ev.cat} ${ev._long?'long':''}" title="${ev.label}">${d}</div>`;
     else cells += `<div class="day-cell">${d}</div>`;
   }
 
   const legend = mon.events.map(ev => {
     const range = ev.d.length > 1 ? `${ev.d[0]}–${ev.d[ev.d.length-1]}` : `${ev.d[0]}`;
-    return `<div><span class="dot ${ev._long?'long':''}"></span>${range}일 : ${ev.label}</div>`;
+    return `<div><span class="dot cat-${ev.cat}"></span>${range}일 : ${ev.label}</div>`;
   }).join('');
 
   yearCal.innerHTML += `
@@ -426,6 +495,7 @@ CAL.forEach(mon => {
 const CHARACTERS = [
   {
     type: 'main', name: '유은호', title: '다정한 왕자님', color: '#A2C2E8', img: 'https://raw.githubusercontent.com/ux012/h/refs/heads/main/yeh.jpg',
+    role: '피아노 개인연습생', tag: '국제 콩쿠르 주니어부문 최다 우승자', age: 18,
     club: '개인연습 (피아노)', grade: '평균 2~3등급',
     appearance: '182cm·67kg. 곱슬거리는 짧은 백금발, 연하늘색 눈동자, 창백하고 선 고운 미인상. 피아니스트의 손.',
     outer: '늘 나른하고 부드럽게 웃으며 우아한 말투를 씀. 만인에게 친절하지만, 실은 철벽을 치고 있음. 자기 바운더리에 들인 단 한 사람에겐 꿀이 떨어짐.',
@@ -437,6 +507,7 @@ const CHARACTERS = [
   },
   {
     type: 'main', name: '서재준', title: '맹목적 헌신 · 대형견', color: '#E59866', img: 'https://raw.githubusercontent.com/ux012/h/refs/heads/main/sjj.jpg',
+    role: '수영부 자유형 에이스', tag: '국가대표 상비군, 고교 신기록 보유', age: 18,
     club: '수영부 (자유형)', grade: '올 7~9등급',
     appearance: '189cm·76kg. 어두운 갈색 머리, 호박색 눈. 수영으로 다져진 역삼각형 몸매. 무표정일 땐 사나운 늑대.',
     outer: '에너지 넘치는 직진 쾌남. 장난기 많고 인싸 기질. 자신이 꽂힌 상대에겐 백허그, 목말 등 거친 애정표현을 서슴지 않음.',
@@ -448,17 +519,19 @@ const CHARACTERS = [
   },
   {
     type: 'main', name: '백도진', title: '과보호 츤데레 · 잠자는 용', color: '#2C3E50', img: 'https://raw.githubusercontent.com/ux012/h/refs/heads/main/bdj.jpg',
+    role: '선도부장 · 전교 1등', tag: '법학토론부, 문·이과 통합 전교 1등', age: 18,
     club: '법학토론부 · 선도부장', grade: '문·이과 통합 전교 1등',
     appearance: '185cm·70kg. 이마를 덮는 까만 생머리, 검은 눈, 은테 안경, 서늘하고 단정한 인상.',
     outer: '매사 무심하고 냉소적. 하지만 자신의 사람이라고 여긴 대상에게만 옷차림, 밥 등 폭풍 잔소리를 쏟아내는 과보호 보호자 모드 발동.',
     inner: '철저한 이성주의자. 단, 자신이 지키려는 대상이 위협받는 일이라면 가장 합법적이고 이성적인 방법으로 상대를 철저히 짓밟음.',
     romance: '모태솔로. 감정 소모와 연애를 쓸데없는 짓으로 치부함. 하지만 한 번 자신의 보호 구역 안에 들이는 순간 애정 가득한 보호자로 돌변.',
-    spec: '전국 모의고사 상위 1% 고정 (서울대 프리패스상).',
+    spec: '전국 모의고사 상위 1% 고정 (서울대 프리패스).',
     hobby: '밤마다 성인 실전 격투기 학원에서 남몰래 수련.',
     spoiler: '알코올중독 아버지의 폭력을 견디다 못해 중학생 때 제 손으로 아버지를 경찰에 넘김. 절대적인 법(힘)을 가지기 위해 독하게 공부함.'
   },
   {
     type: 'sub', name: '이유라', title: '팩폭 사이다 찐친', color: '#F1948A', img: 'https://raw.githubusercontent.com/ux012/h/refs/heads/main/yyr.jpg',
+    role: '축제기획부 에이스', tag: '은호·재준·도진의 절친', age: 18,
     club: '축제기획부', grade: '4~5등급 (벼락치기)',
     appearance: '165cm. 밝은 갈색 머리 반묶음(한쪽 옆머리 땋음). 털털하고 건강한 인상.',
     outer: '시원시원하고 가식 없는 사이다 성격. 목소리와 리액션이 큼.',
@@ -470,6 +543,7 @@ const CHARACTERS = [
   },
   {
     type: 'sub', name: '최태성', title: '안하무인 재벌 2세', color: '#F1C40F', img: 'https://raw.githubusercontent.com/ux012/h/refs/heads/main/cts.jpg',
+    role: '영화감상부 (유령회원)', tag: '재단 이사장의 아들', age: 18,
     club: '영화감상부 (유령회원)', grade: '돈으로 커버 중',
     appearance: '183cm. 양아치 탈색 노란 머리, 금색 눈, 한정판 신발 도배.',
     outer: '세상 무서울 것 없는 싸가지. 돈과 권력으로 모든 걸 해결하려는 얄미운 금쪽이. 남주 3인방의 재능을 심하게 질투함.',
@@ -481,6 +555,7 @@ const CHARACTERS = [
   },
   {
     type: 'sub', name: '김민재', title: '음습한 스토커', color: '#7DCEA0', img: 'https://raw.githubusercontent.com/ux012/h/refs/heads/main/kmj.jpg',
+    role: '도서감상부 · 전교 2등', tag: '만년 전교 2등', age: 18,
     club: '도서감상부', grade: '전교 2등',
     appearance: '175cm. 톤다운된 카키빛 바가지머리, 뿔테, 눈물점, 손톱 뜯는 버릇. 창백한 너드 미남상.',
     outer: '말수가 적고 서늘함. 건드리면 흠칫 놀라 도망가는 소심하고 무해한 모범생처럼 보임.',
@@ -492,28 +567,31 @@ const CHARACTERS = [
   },
   {
     type: 'sub', name: '오지훈', title: '농구부 주장 · 하찮은 허세', color: '#E74C3C', img: 'https://raw.githubusercontent.com/ux012/h/refs/heads/main/ojh.jpg',
-    club: '농구부 (SG)', grade: '올 9등급',
+    role: '농구부 주장', tag: '농구부 슈팅가드, 태성의 오른팔', age: 18,
+    club: '농구부 (슈팅가드)', grade: '올 9등급',
     appearance: '192cm·78kg. 헝클어진 붉은 머리, 다수 피어싱, 코에 붙은 반창고.',
     outer: '허세 100% 다혈질 츤데레. 태성의 오른팔 노릇을 하며 시비를 거는 바람잡이.',
     inner: '자기혐오. 농구를 위해 태성에게 기생하는 비겁한 자신을 혐오함. 돈에 굴복하지 않는 재준을 보며 열등감과 동경을 동시에 느낌.',
     romance: '표현이 서툴러 좋아하는 상대한테 틱틱대다 스스로 이불킥함.',
-    spec: '중2에 농구 시작한 늦깎이 천재. 대학 스카우터의 표적.',
-    hobby: '농구잡지 보기, 농구화 닦기.',
-    spoiler: '극심한 가정폭력과 빈곤층 출신. 아무도 안 보는 골목에서 길고양이 밥을 챙겨주는 버려진 것들에 대한 연민이 있음.'
+    spec: '중2에 농구 시작한 늦깎이 천재. 최근 한빛고의 전국대회 8강을 이끌며 대학 스카우터의 표적이 됨.',
+    hobby: '농구잡지 보기, 농구화 닦기, 새벽 길거리 코트에서 홀로 농구하며 해방감 느끼기',
+    spoiler: '가정폭력과 빈곤층 출신. 아무도 안 보는 골목에서 길고양이 밥을 챙겨주는 등 버려진 것들에 대한 연민이 있음. 방황하던 자신에게 주장 완장을 채워준 동철쌤 내심 따름.'
   },
   {
     type: 'staff', name: '박동철', title: '참스승 · 체육 담임', color: '#BFC9CA', img: 'https://raw.githubusercontent.com/ux012/h/refs/heads/main/pdc.jpg',
+    role: '2학년 3반 담임', tag: '체육 교사', age: 45,
     club: '2학년 3반 담임', grade: '-',
     appearance: '189cm. 턱수염, 사람 좋은 주름, 늘어난 져지 차림.',
     outer: '"야 이놈들아!" 소리치며 등짝을 치지만 전혀 아프지 않음. 툭하면 아이스크림을 쏘는 호탕한 선생님.',
-    inner: '불의를 참지 못하는 정의로움. 재단의 협박에도 굴하지 않고 상처 많은 아이들(은호, 재준, 도진, 지훈)을 뒤에서 지켜줌.',
+    inner: '불의를 참지 못하는 정의로움. 재단의 협박에도 굴하지 않고 상처 많은 아이들(은호, 재준, 도진, 지훈)을 뒤에서 지켜줌. 학생들의 안위와 미래만을 생각하는 진짜 어른.',
     romance: '-',
-    spec: '과거 양아치였으나 은사를 만나 교사가 됨.',
-    hobby: '주말에 유치원생 딸과 놀이터 가기.',
-    spoiler: '아내와 사별한 싱글 대디. 애들 든든히 먹이려고 학교 앞 붕어빵 트럭 외상값을 뚫어놓음.'
+    spec: '과거 양아치였으나 은사를 만나 교사의 길을 걷게 됨.',
+    hobby: '주말에 유치원생 딸과 놀이터 가기. 낡은 수첩에 반 학생들의 장점과 진로 상담 내용 빼곡히 적기.',
+    spoiler: '아내와 사별 후 유치원생 딸 홀로 키우는 다정한 아빠. 애들 든든히 먹이려고 학교 앞 붕어빵 트럭 외상값을 뚫어놓음.'
   },
   {
     type: 'staff', name: '최용건', title: '재단 이사장 · 최종 보스', color: '#5D6D7E', img: 'https://raw.githubusercontent.com/ux012/h/refs/heads/main/cyg.jpg',
+    role: '재단 이사장', tag: '한빛고 설립자', age: 52,
     club: '최용건 재단', grade: '-',
     appearance: '180cm. 포마드 흑발, 감정 없는 눈, 최고급 맞춤 정장.',
     outer: '학교 순찰 시엔 인자한 미소와 장학금을 수여하는 훌륭한 교육자 코스프레.',
@@ -528,19 +606,22 @@ const CHARACTERS = [
 const castGrid = document.getElementById('cast-grid');
 function renderCharacters(filter) {
   const filtered = filter === 'all' ? CHARACTERS : CHARACTERS.filter(c => c.type === filter);
-  castGrid.innerHTML = filtered.map(c => `
+  castGrid.innerHTML = filtered.map(c => {
+    const badge = c.type === 'staff' ? `한빛고 · ${c.role}` : `한빛고 2학년 3반 · ${c.role}`;
+    return `
     <div class="stu-card" onclick="openModal('${c.name}')">
       <div class="stu-photo">
         <img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="ph-fallback" style="display:none; background-color: ${c.color}">${c.name[0]}</div>
       </div>
       <div class="stu-body">
-        <div class="stu-title">${c.title}</div>
+        <div class="stu-badge">${badge}</div>
         <div class="stu-name">${c.name}</div>
-        <div class="stu-club">${c.club}</div>
+        <div class="stu-tag">${c.tag}</div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 document.querySelectorAll('.cast-tabs button').forEach(btn => {
   btn.addEventListener('click', (e) => {
@@ -568,18 +649,30 @@ function openModal(name) {
   
   modalBody.innerHTML = `
     <div class="m-header">
-      <div class="m-title">${c.title}</div>
+      <div class="m-title">${c.badgeText || (c.type === 'staff' ? `한빛고 · ${c.role}` : `한빛고 2학년 3반 · ${c.role}`)}</div>
       <div class="m-name">${c.name}</div>
     </div>
     
     <div class="m-grid">
+      <div class="m-stat"><div class="m-stat-k">나이</div><div class="m-stat-v">${c.age === '-' ? '-' : c.age + '세'}</div></div>
       <div class="m-stat"><div class="m-stat-k">성적</div><div class="m-stat-v">${c.grade}</div></div>
       <div class="m-stat"><div class="m-stat-k">소속/동아리</div><div class="m-stat-v">${c.club}</div></div>
+      <div class="m-stat"><div class="m-stat-k">한 줄 소개</div><div class="m-stat-v">${c.title}</div></div>
     </div>
 
     <div class="m-section">
-      <span class="m-label">외모 및 특징</span>
-      <div class="m-text">${c.appearance}<br><br><strong>스펙:</strong> ${c.spec}<br><strong>취미:</strong> ${c.hobby}</div>
+      <span class="m-label">외모</span>
+      <div class="m-text">${c.appearance}</div>
+    </div>
+
+    <div class="m-section">
+      <span class="m-label">스펙</span>
+      <div class="m-text">${c.spec}</div>
+    </div>
+
+    <div class="m-section">
+      <span class="m-label">취미</span>
+      <div class="m-text">${c.hobby}</div>
     </div>
 
     <div class="m-section">
@@ -618,8 +711,8 @@ const POSTS = [
     comments: [
       { name: '이유라', color: '#F1948A', text: '아오 빡쳐 최태성 돈지랄 작작해라 ㅡㅡ 내가 2교시부터 벼르고 있었는데' },
       { name: '오지훈', color: '#E74C3C', text: '태성이형 폼 미쳤다 ㅋㅋㅋ 빵 잘먹겠습니다 행님' },
-      { name: '서재준', color: '#E59866', text: '유라야 내가 훈련끝나고 편의점 뛰어가서 비슷한거 3개 사갈게 울지마라 ㅋㅋ' },
-      { name: '이유라', color: '#F1948A', text: '니가 웬일이냐? 올 때 꼭 초코맛으로 사와라.' }
+      { name: '서재준', color: '#E59866', text: '야 이유라 편의점 신상이 더 맛있음 ㅋㅋ 초코랑 말차 각 4개씩 사간다' },
+      { name: '이유라', color: '#F1948A', text: '니가 웬일이냐? 초코맛은 진짜 꼭 필수로 사와라.' }
     ]
   },
   {
@@ -629,9 +722,9 @@ const POSTS = [
     likes: 24, cmtCount: 4,
     comments: [
       { name: '익명', color: '#94A3B8', text: '그거 저주 걸리면 비둘기 똥 맞고 급식 식판 엎고 난리난다던데 ㄷㄷ' },
-      { name: '이유라', color: '#F1948A', text: '야 글쓴이 3반 창가자리 걔 아니냐? ㅋㅋㅋ 너 빨리 가짜연애라도 할 사람 구해라!!' },
+      { name: '이유라', color: '#F1948A', text: '큰일났다 ㅋㅋㅋ 빨리 가짜연애라도 할 사람 구하라고!!' },
       { name: '최태성', color: '#F1C40F', text: 'ㅋㅋ 돈 주면 내가 하루 정도 손은 잡아줄 수 있는데? 빌어봐.' },
-      { name: '서재준', color: '#E59866', text: '윗댓 재수탱이 차단 좀. 그리고 너, 정 불안하면 나한테 말하든가... (긁적)' }
+      { name: '서재준', color: '#E59866', text: '윗댓 재수탱이 차단 좀. 그리고 너, 정 불안하면 나한테 말하든가' }
     ]
   },
   {
@@ -642,7 +735,7 @@ const POSTS = [
     comments: [
       { name: '이유라', color: '#F1948A', text: '얼굴 그만 보고 정신 차려라 익명아 ㅋㅋㅋ 걘 콩쿠르랑 사귐' },
       { name: '익명', color: '#7DCEA0', text: '오늘 은호가 닦고 버린 건반 융... 잘 보관해뒀어...' },
-      { name: '익명', color: '#BDC3C7', text: '위에 익명 소름돋네;; 도서부 김민재 아니냐 말투가' }
+      { name: '익명', color: '#BDC3C7', text: '위에 익명 소름돋네;; 말투 뭐냐' }
     ]
   },
   {
@@ -685,7 +778,7 @@ const POSTS = [
     likes: 7, cmtCount: 2,
     comments: [
       { name: '익명', color: '#94A3B8', text: '헐 나 갈래 끝나고 정문 편의점 앞에서 봐!!' },
-      { name: '백도진', color: '#2C3E50', text: '미성년자 심야 출입 금지다. 걸리면 바로 학생부로 넘긴다.' }
+      { name: '백도진', color: '#2C3E50', text: '미성년자 심야 출입 금지임. 걸리면 바로 학생부로 넘긴다.' }
     ]
   },
   {
